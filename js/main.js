@@ -17,7 +17,7 @@ angular.module('example', [
         };
 
         $scope.addImage = function(image) {
-            $scope.fabric.addImage('http://stargate-sg1-solutions.com/blog/wp-content/uploads/2007/08/daniel-season-nine.jpg');
+            $scope.fabric.addImage('Koala.jpg');
         };
 
         $scope.addImageUpload = function(data) {
@@ -80,4 +80,9 @@ $(document).ready(function(){
             $('#backgroundValue').trigger('input');
         }
     });
+
+    $('#loadImagesButton').on('click', function() {
+        $('#previousImages').bPopup();
+    });
+
 });

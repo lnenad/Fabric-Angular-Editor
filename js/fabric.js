@@ -222,6 +222,7 @@ angular.module('common.fabric', [
 		self.addImage = function(imageURL) {
 			fabric.Image.fromURL(imageURL, function(object) {
 				object.id = self.createId();
+				object.scale(0.5);
 
 				for (var p in self.imageOptions) {
 					object[p] = self.imageOptions[p];

@@ -105,10 +105,37 @@ textarea {
 
 .floatingPrompt {
     font-size: 11px !important;
+    background-color: #E6E2D9;
+    padding: 20px;
+    position: absolute;
+    z-index: 200;
+    left: 800px;
+    text-align: center;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.floatingPrompt .btn-group {
+    margin-top: 5px;
 }
 
 .floatingPrompt .btn {
     font-size: 11px !important;
+    background-color: #fff;
+}
+
+
+#previousImages {
+    width: 600px;
+    height: 600px;
+    background: #fff;
+    padding: 20px;
+}
+
+#previousImages img {
+    margin: 20px;
+    cursor: hand;
 }
 
 

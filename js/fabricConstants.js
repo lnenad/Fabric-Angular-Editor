@@ -75,10 +75,10 @@ angular.module('common.fabric.constants', [])
 
 		fonts: [
 			{ name: 'Arial' },
-			{ name: 'Lora' },
-			{ name: 'Croissant One' },
-			{ name: 'Architects Daughter' },
-			{ name: 'Emblema One' },
+			{ name: 'Times new roman' },
+			{ name: 'Trebuchet MS' },
+			{ name: 'Verdana' },
+			{ name: 'Comic Sans MS' },
 			{ name: 'Graduate' },
 			{ name: 'Hammersmith One' },
 			{ name: 'Oswald' },

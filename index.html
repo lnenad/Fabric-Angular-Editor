@@ -12,6 +12,7 @@
     <script type="text/javascript" src="js/fabricUtilities.js"></script>
     <script type="text/javascript" src="js/fabricWindow.js"></script>
     <script type="text/javascript" src="js/spectrum.js"></script>
+    <script type="text/javascript" src="js/jquery.bpopup.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
 
 
@@ -31,9 +32,9 @@
 
         <br />
 
-        <div class="row">
+        <!--<div class="row">
 
-            <!--<div class='col-xs-4'>
+            <div class='col-xs-4'>
                 <label>Canvas Size</label>
                 <br />
                 <button  ng-hide='canvasCopy' class='btn btn-default btn-block mrm' ng-click='selectCanvas()'>
@@ -75,12 +76,17 @@
                         </li>
                     </ul>
                 </div>
-            </div>-->
+            </div>
+        </div>-->
+
+        <div id="previousImages" style="display: none;">
+            <img src="Koala.jpg" ng-click='addImage()' style="width: 160px; height: 100px;" />
+            <img src="Koala.jpg" ng-click='addImage()' style="width: 160px; height: 100px;" />
+            <img src="Koala.jpg" ng-click='addImage()' style="width: 160px; height: 100px;" />
+            <img src="Koala.jpg" ng-click='addImage()' style="width: 160px; height: 100px;" />
         </div>
 
-        <br />
-
-        <div class='row' style="background-color: #E6E2D9; max-width: 783px; max-height: 540px;">
+        <div id='mainApp' class='row' style="background-color: #E6E2D9; max-width: 783px; max-height: 540px;">
 
 
             <div class="col-xs-2">
@@ -119,7 +125,7 @@
                             Add image
                             </button>
 
-                            <button ng-click='addImage()' class='btn btn-default' style="margin: 10px 0 0 12px">
+                            <button id='loadImagesButton' class='btn btn-default' style="margin: 10px 0 0 12px">
                                 <i class='fa fa-archive'></i>
                                 <div class='clearfix'></div>
                                 Load images
@@ -149,8 +155,8 @@
 
             </div>
 
-            <div class='col-xs-3 floatingPrompt' style="position: absolute; z-index: 200; left: 800px;">
-                <div ng-if='fabric.selectedObject'>
+            <div class='col-xs-3 floatingPrompt' style="position: absolute; z-index: 200; text-align: center" ng-if='fabric.selectedObject'>
+                <div>
                     <div ng-switch='fabric.selectedObject.type' style="">
                         <div ng-switch-when='text'>
 
@@ -177,6 +183,13 @@
                                         $('#textColorValue').trigger('input');
                                     }
                                 });
+
+                                var topLeftPos = $('#mainApp').offset();
+
+                                $(".floatingPrompt").css({
+                                    'left': topLeftPos.left+690,
+                                    'top': topLeftPos.top-130
+                                });
                             </script>
 
                             <div class="row" ng-hide="fabric.selectedObject.type == 'image'">
@@ -184,6 +197,23 @@
                                     Text Color
                                     <input type="text" class='form-control' ng-model="fabric.selectedObject.fill" id="textColorValue" style="display: none;"/>
                                     <input type='text' id="textColorPicker" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="btn-group">
+
+                                    <a class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span class='object-font-family-preview' style='font-family: "{{ fabric.selectedObject.fontFamily }}";'>
+                                      {{ fabric.selectedObject.fontFamily }}
+                                    </span>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li ng-repeat='font in FabricConstants.fonts' ng-click='fabric.selectedObject.fontFamily = font.name' style='font-family: "{{ font.name }}";'>
+                                            <a>{{ font.name }}</a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
 
@@ -225,35 +255,21 @@
 
                             <br />
 
-                            <div class="row">
-                                <div class="btn-group col-sm-12">
-                                    <a class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class='object-font-family-preview' style='font-family: "{{ fabric.selectedObject.fontFamily }}";'>
-                      {{ fabric.selectedObject.fontFamily }}
-                    </span>
-                                        <span class="caret"></span>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li ng-repeat='font in FabricConstants.fonts' ng-click='fabric.selectedObject.fontFamily = font.name' style='font-family: "{{ font.name }}";'>
-                                            <a>{{ font.name }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+
                         </div>
 
-                        <div ng-switch-when="image">
+                        <!--<div ng-switch-when="image">
                             <div class="input-prepend">
                                 <button ng-class="{ active: fabric.isTinted() }" ng-click="fabric.toggleTint()" class='btn'>
                                     <i class='fa fa-tint'></i>
                                 </button>
                                 <input type="text" class='input-small' ng-model='fabric.selectedObject.tint' />
                             </div>
-                        </div>
+                        </div>-->
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="btn-group">
                             <input class='col-sm-12' title="Transparency" type='range'
                                    min="0"
                                    max="1"
@@ -263,48 +279,46 @@
                     </div>
 
                     <div class="row mbm">
-                        <div class="col-sm-12">
+                        <div class="btn-group">
                             <button class='btn btn-small btn-block' ng-class="{ active: fabric.getFlipX() }" ng-click="{ active: fabric.toggleFlipX() }">
                                 <i class='fa fa-exchange'></i> Flip
                             </button>
                         </div>
-                    </div>
+                        <br />
 
+                        <h5>Centering:</h5>
 
-                    <div class="row">
-                        <div class="btn-group col-xs-12 btn-group-vertical">
+                        <div class="btn-group">
                             <button ng-click='fabric.center()' class='btn btn-small'>
-                                Center
+                                <i class='fa fa-arrows' title="Center the selected object"></i>
                             </button>
 
                             <button ng-click='fabric.centerH()' class='btn btn-small'>
-                                Center Horizontally
+                                <i class='fa fa-arrows-h' title="Center the selected object horizontally"></i>
                             </button>
 
                             <button ng-click='fabric.centerV()' class='btn btn-small'>
-                                Center Vertically
+                                <i class='fa fa-arrows-v' title="Center the selected object vertically"></i>
                             </button>
                         </div>
-                    </div>
 
-                    <br />
+                        <h5>Ordering:</h5>
 
-                    <div class="row">
-                        <div class="btn-group col-xs-12 btn-group-vertical">
-                            <button ng-click='fabric.bringToFront(); fabric.setDirty(true)' class='btn btn-small btn-block'>
-                                Bring to front
+                        <div class="btn-group">
+                            <button ng-click='fabric.bringToFront(); fabric.setDirty(true)' class='btn btn-small'>
+                                <i class='fa fa-arrow-circle-right' title="Bring to front"></i>
                             </button>
 
-                            <button ng-click='fabric.bringForward(); fabric.setDirty(true)' class='btn btn-small btn-block'>
-                                Bring forwards
+                            <button ng-click='fabric.bringForward(); fabric.setDirty(true)' class='btn btn-small'>
+                                <i class='fa fa-arrow-circle-o-right' title="Bring forwards"></i>
                             </button>
 
-                            <button ng-click='fabric.sendBackwards(); fabric.setDirty(true)' class='btn btn-small btn-block'>
-                                Send backwards
+                            <button ng-click='fabric.sendBackwards(); fabric.setDirty(true)' class='btn btn-small'>
+                                <i class='fa fa-arrow-circle-o-left' title="Send backwards"></i>
                             </button>
 
-                            <button ng-click='fabric.sendToBack(); fabric.setDirty(true)' class='btn btn-small btn-block'>
-                                Send to back
+                            <button ng-click='fabric.sendToBack(); fabric.setDirty(true)' class='btn btn-small'>
+                                <i class='fa fa-arrow-circle-left' title="Send to back"></i>
                             </button>
                         </div>
                     </div>
@@ -316,6 +330,10 @@
                     </button>
                 </div>
             </div>
+
+            <script ng-if='!fabric.selectedObject'>
+                //$(".sp-container").remove();
+            </script>
 
             <div class='col-xs-9' style="background-color: #CACACA;margin-left: 30px;padding-bottom: 10px;">
                 <div class='image-builder' parent-click="fabric.deactivateAll()">
