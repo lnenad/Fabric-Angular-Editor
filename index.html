@@ -85,14 +85,31 @@
         <br />
 
         <div class='row'>
+            <ul>
+                <li>
+                    <input type="checkbox" checked>
+                    <i></i>
+                    <h2>Background</h2>
+                    <p><label>Background Color</label><input type="text" id="backgroundValue" style="display: none;" class='form-control' ng-change='fabric.setDirty(true); fabric.stopContinuousRendering()' ng-model="fabric.canvasBackgroundColor" />
+                    <input type='text' id="colorPicker" /></p>
+                </li>
+                <li>
+                    <input type="checkbox" checked>
+                    <i></i>
+                    <h2>How it Works</h2>
+                    <p>Using the sibling and checked selectors, we can determine the styling of sibling elements based on the checked state of the checkbox input element. One use, as demonstrated here, is an entirely CSS and HTML accordion element. Media queries are used to make the element responsive to different screen sizes.</p>
+                </li>
+                <li>
+                    <input type="checkbox" checked>
+                    <i></i>
+                    <h2>Points of Interest</h2>
+                    <p>By making the open state default for when :checked isn't detected, we can make this system accessable for browsers that don't recognize :checked. The fallback is simply an open accordion. The accordion can be manipulated with Javascript (if needed) by changing the "checked" property of the input element.</p>
+                </li>
+            </ul>
 
             <div class="col-xs-2">
-                <label>Background Color</label>
-                <input type="text" id="backgroundValue" style="display: none;" class='form-control' ng-change='fabric.setDirty(true); fabric.stopContinuousRendering()' ng-model="fabric.canvasBackgroundColor" />
-                <input type='text' id="colorPicker" />
-            </div>
 
-            <div class="col-sm-12">
+
                 <small><em class='text-muted'>Image and shape do not work due to codepen cross-origin.</em></small>
                 <br />
                 <div class='btn-group pull-left mrm'>
@@ -288,47 +305,49 @@
                         <canvas fabric='fabric'></canvas>
                     </div>
                 </div>
-            </div>
 
 
-            <div style="padding: 40px;">
-                <button class='btn btn-default' ng-click='savePage()' title='Save the image.'>
-                    <i class='fa fa-save'></i>
-                    <div class='clearfix'></div>
-                    Save <span ng-show='fabric.isDirty()' class='text-danger'>*</span>
-                </button>
+                <div style="padding: 40px 20px 0 20px;">
+                    <button class='btn btn-default' ng-click='savePage()' title='Save the image.'>
+                        <i class='fa fa-save'></i>
+                        <div class='clearfix'></div>
+                        Save <span ng-show='fabric.isDirty()' class='text-danger'>*</span>
+                    </button>
 
-                <button ng-click="fabric.download('myCanvas')" class='btn btn-success'>
-                    <i class='fa fa-download'></i>
-                    <div class='clearfix'></div>
-                    Download
-                </button>
+                    <button ng-click="fabric.download('myCanvas')" class='btn btn-success'>
+                        <i class='fa fa-download'></i>
+                        <div class='clearfix'></div>
+                        Download
+                    </button>
 
-                <button ng-click="loadPage()" class='btn btn-default'>
-                    <i class='fa fa-upload'></i>
-                    <div class='clearfix'></div>
-                    Load
-                </button>
+                    <button ng-click="loadPage()" class='btn btn-default'>
+                        <i class='fa fa-upload'></i>
+                        <div class='clearfix'></div>
+                        Load
+                    </button>
 
-                <div style='margin: 15px 0 0 10px; width: 300px; display: inline-block;' class="pull-right">
-                    <div class='col-xs-1 text-center'>
-                        <i class='fa fa-search-minus pull-left'></i>
-                    </div>
-                    <div class='col-xs-6'>
-                        <input type='range' class='pull-left' min='.1' max='3' step='.1' ng-change='fabric.setZoom()' ng-model='fabric.canvasScale' />
-                    </div>
-                    <div class='col-xs-1 text-center'>
-                        <i class='fa fa-search-plus'></i>
-                    </div>
-                    <div class='col-xs-3'>
-                        <button class='btn btn-xs' ng-click="fabric.resetZoom()">
-                            Reset
-                        </button>
+                    <div style='margin: 15px 0 0 10px; width: 300px; display: inline-block;' class="pull-right">
+                        <div class='col-xs-1 text-center'>
+                            <i class='fa fa-search-minus pull-left'></i>
+                        </div>
+                        <div class='col-xs-6'>
+                            <input type='range' class='pull-left' min='.1' max='3' step='.1' ng-change='fabric.setZoom()' ng-model='fabric.canvasScale' />
+                        </div>
+                        <div class='col-xs-1 text-center'>
+                            <i class='fa fa-search-plus'></i>
+                        </div>
+                        <div class='col-xs-3'>
+                            <button class='btn btn-xs' ng-click="fabric.resetZoom()">
+                                Reset
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+            </div>
 
-        </div>
+
+
     </div>
 </div>
 
