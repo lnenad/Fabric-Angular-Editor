@@ -21,10 +21,6 @@
     <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
 </head>
 <body>
-<a class='btn btn-info' target='_blank' href='https://github.com/clouddueling/angular-fabric'>
-    <i class='fa fa-github'></i>
-    clouddueling/angular-fabric
-</a>
 <div ng-app='example' ng-controller="ExampleCtrl" style="width:783px; height: 540px;">
     <div class='image-builder-container'>
         <div ng-if="fabric.isLoading()" class="image-loading">
@@ -84,15 +80,15 @@
 
         <br />
 
-        <div class='row'>
+        <div class='row' style="background-color: #E6E2D9; max-width: 783px; max-height: 540px;">
 
 
             <div class="col-xs-2">
 
-                <ul>
+                <ul class="mainNav">
                     <li>
                         <input type="checkbox" checked>
-                        <i></i>
+                        <i class="arrow"></i>
                         <h2>Background</h2>
                         <p>
                             Background Color <br />
@@ -102,10 +98,10 @@
                     </li>
                     <li>
                         <input type="checkbox" checked>
-                        <i></i>
+                        <i class="arrow"></i>
                         <h2>Text</h2>
                         <p>
-                            <button ng-click="fabric.addText()" class='btn btn-default'>
+                            <button ng-click="fabric.addText()" class='btn btn-default' style="margin: 5px 0 0 32px">
                                 <i class='fa fa-font'></i>
                                 <div class='clearfix'></div>
                                 &nbsp; Text &nbsp;
@@ -114,17 +110,17 @@
                     </li>
                     <li>
                         <input type="checkbox" checked>
-                        <i></i>
+                        <i class="arrow"></i>
                         <h2>Image</h2>
                         <p>
-                            <button ng-click='addImage()' class='btn btn-default'>
+                            <button ng-click='addImage()' class='btn btn-default' style="margin: 5px 0 0 19px">
                             <i class='fa fa-image'></i>
                             <div class='clearfix'></div>
                             Add image
                             </button>
 
-                            <button ng-click='addImage()' class='btn btn-default'>
-                                <i class='fa fa-image'></i>
+                            <button ng-click='addImage()' class='btn btn-default' style="margin: 10px 0 0 12px">
+                                <i class='fa fa-archive'></i>
                                 <div class='clearfix'></div>
                                 Load images
                             </button>
@@ -134,7 +130,7 @@
 
                 <br />
                 <div class='btn-group pull-left mrm'>
-                    <button ng-disabled="!fabric.selectedObject" ng-click="fabric.deleteActiveObject(); fabric.setDirty(true)" class='btn btn-danger'>
+                    <button ng-disabled="!fabric.selectedObject" ng-click="fabric.deleteActiveObject(); fabric.setDirty(true)" class='btn btn-danger' style="margin: 1% 0 0 32px">
                         <i class='fa fa-trash-o'></i>
                         <div class='clearfix'></div>
                         Delete
@@ -153,23 +149,45 @@
 
             </div>
 
-            <div class='col-xs-3'>
+            <div class='col-xs-3 floatingPrompt' style="position: absolute; z-index: 200; left: 800px;">
                 <div ng-if='fabric.selectedObject'>
-                    <div ng-switch='fabric.selectedObject.type'>
+                    <div ng-switch='fabric.selectedObject.type' style="">
                         <div ng-switch-when='text'>
+
                             <p>
-                                <textarea style="text-align: {{ fabric.selectedObject.textAlign }}" class="form-control" rows="6" ng-model="fabric.selectedObject.text"></textarea>
+                                <textarea style="text-align: {{ fabric.selectedObject.textAlign }}" class="form-control" rows="4" ng-model="fabric.selectedObject.text"></textarea>
                             </p>
 
                             <p title="Font size">
                                 <i class="fa fa-text-height"></i>
-                                <input type='number' class="form-control" ng-model="fabric.selectedObject.fontSize" />
+                                <input type='number' class="form-control" ng-model="fabric.selectedObject.fontSize" style="width: 62px; display: inline-block !important;"/>
+
+                                <i class="fa fa-align-left"></i>
+                                <input type='number' class="form-control" ng-model="fabric.selectedObject.lineHeight" style="width: 62px; display: inline-block !important;" step=".1" />
                             </p>
 
-                            <p title="Line height">
-                                <i class="fa fa-align-left"></i>
-                                <input type='number' class="form-control" ng-model="fabric.selectedObject.lineHeight" step=".1" />
-                            </p>
+                            <script type="text/javascript">
+                                $("#textColorPicker").spectrum({
+                                    color: "#fff",
+                                    preferredFormat: "hex",
+                                    showInput: true,
+                                    change: function(color) {
+                                        console.log(color.toHexString()); // #ff0000
+                                        $('#textColorValue').val(color.toHexString());
+                                        $('#textColorValue').trigger('input');
+                                    }
+                                });
+                            </script>
+
+                            <div class="row" ng-hide="fabric.selectedObject.type == 'image'">
+                                <div class="col-sm-12">
+                                    Text Color
+                                    <input type="text" class='form-control' ng-model="fabric.selectedObject.fill" id="textColorValue" style="display: none;"/>
+                                    <input type='text' id="textColorPicker" />
+                                </div>
+                            </div>
+
+                            <br />
 
                             <div class='btn-group'>
                                 <button ng-class="{ active: fabric.selectedObject.textAlign == 'left' }" ng-click="fabric.selectedObject.textAlign = 'left'" class='btn btn-small'>
@@ -252,23 +270,18 @@
                         </div>
                     </div>
 
-                    <div class="row" ng-hide="fabric.selectedObject.type == 'image'">
-                        <div class="col-sm-12">
-                            <input type="text" class='form-control' ng-model="fabric.selectedObject.fill" />
-                        </div>
-                    </div>
 
                     <div class="row">
                         <div class="btn-group col-xs-12 btn-group-vertical">
-                            <button ng-click='fabric.center()' class='btn btn-small btn-block'>
+                            <button ng-click='fabric.center()' class='btn btn-small'>
                                 Center
                             </button>
 
-                            <button ng-click='fabric.centerH()' class='btn btn-small btn-block'>
+                            <button ng-click='fabric.centerH()' class='btn btn-small'>
                                 Center Horizontally
                             </button>
 
-                            <button ng-click='fabric.centerV()' class='btn btn-small btn-block'>
+                            <button ng-click='fabric.centerV()' class='btn btn-small'>
                                 Center Vertically
                             </button>
                         </div>
@@ -304,7 +317,7 @@
                 </div>
             </div>
 
-            <div class='col-xs-9'>
+            <div class='col-xs-9' style="background-color: #CACACA;margin-left: 30px;padding-bottom: 10px;">
                 <div class='image-builder' parent-click="fabric.deactivateAll()">
                     <div class='fabric-container'>
                         <canvas fabric='fabric'></canvas>
@@ -312,7 +325,7 @@
                 </div>
 
 
-                <div style="padding: 40px 15px 0 15px;">
+                <div style="padding: 40px 3px 0 3px;">
 
                     <button ng-click="fabric.clearCanvas(); fabric.setDirty(true)" class='btn btn-default'>
                         <i class='fa fa-refresh'></i>

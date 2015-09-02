@@ -10,11 +10,12 @@ body {
     background: #cacaca;
     box-sizing: border-box;
     border: 1px solid #cacaca;
-    min-height: 460px;
+    min-height: 400px;
     text-align: center;
     position: relative;
     overflow: hidden;
     width: 90%;
+    margin-left: 30px;
 }
 
 .image-cover {
@@ -102,6 +103,14 @@ textarea {
     user-select: none;
 }
 
+.floatingPrompt {
+    font-size: 11px !important;
+}
+
+.floatingPrompt .btn {
+    font-size: 11px !important;
+}
+
 
 h1, h2 {
     color: #ff6873;
@@ -121,12 +130,11 @@ h2 {
     font-weight: 300;
     letter-spacing: 1px;
     display: block;
-    background-color: #fefffa;
     margin: 0 !important;
     cursor: pointer;
 }
 
-ul li p {
+.mainNav li p {
     color: rgba(48, 69, 92, 0.8);
     font-size: 13px;
     line-height: 26px;
@@ -140,13 +148,13 @@ ul li p {
     z-index: 2;
 }
 
-ul {
+.mainNav {
     list-style: none;
     perspective: 900;
     padding: 0;
     margin: 0;
 }
-ul li {
+.mainNav li {
     position: relative;
     padding: 0;
     margin: 0;
@@ -155,38 +163,38 @@ ul li {
     border-top: 1px dotted #dce7eb;
     width: 130px;
 }
-ul li:nth-of-type(1) {
+.mainNav li:nth-of-type(1) {
     animation-delay: 0.5s;
 }
-ul li:nth-of-type(2) {
+.mainNav li:nth-of-type(2) {
     animation-delay: 0.75s;
 }
-ul li:nth-of-type(3) {
+.mainNav li:nth-of-type(3) {
     animation-delay: 1s;
 }
-ul li:last-of-type {
+.mainNav li:last-of-type {
     padding-bottom: 0;
 }
-ul li i {
+.mainNav li .arrow {
     position: absolute;
     transform: translate(-6px, 0);
     margin-top: 2px;
     right: 0;
 }
-ul li i:before, ul li i:after {
+.mainNav li .arrow:before, .mainNav li .arrow:after {
     content: "";
     position: absolute;
-    background-color: #ff6873;
+    background-color: #CACACA;
     width: 3px;
     height: 9px;
 }
-ul li i:before {
+.mainNav li .arrow:before {
     transform: translate(-2px, 0) rotate(45deg);
 }
-ul li i:after {
+.mainNav li .arrow:after {
     transform: translate(2px, 0) rotate(-45deg);
 }
-ul li input[type=checkbox] {
+.mainNav li input[type=checkbox] {
     position: absolute;
     cursor: pointer;
     width: 100%;
@@ -194,16 +202,16 @@ ul li input[type=checkbox] {
     z-index: 1;
     opacity: 0;
 }
-ul li input[type=checkbox]:checked ~ p {
+.mainNav li input[type=checkbox]:checked ~ p {
     margin-top: 0;
     max-height: 0;
     opacity: 0;
     transform: translate(0, 50%);
 }
-ul li input[type=checkbox]:checked ~ i:before {
+.mainNav li input[type=checkbox]:checked ~ i:before {
     transform: translate(2px, 0) rotate(45deg);
 }
-ul li input[type=checkbox]:checked ~ i:after {
+.mainNav li input[type=checkbox]:checked ~ i:after {
     transform: translate(-2px, 0) rotate(-45deg);
 }
 
