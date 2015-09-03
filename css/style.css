@@ -51,7 +51,7 @@ body {
 
 .loading-indicator {
     background: white;
-    background-image: url(/images/squareLoader.gif);
+    background-image: url(../img/Preloader_3.gif);
     background-repeat: no-repeat;
     background-position: center;
     border-radius: 10px;
@@ -136,6 +136,11 @@ textarea {
 #previousImages img {
     margin: 20px;
     cursor: hand;
+}
+
+.bar {
+    height: 18px;
+    background: green;
 }
 
 

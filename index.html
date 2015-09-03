@@ -13,6 +13,9 @@
     <script type="text/javascript" src="js/fabricWindow.js"></script>
     <script type="text/javascript" src="js/spectrum.js"></script>
     <script type="text/javascript" src="js/jquery.bpopup.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="js/jquery.iframe-transport.js"></script>
+    <script type="text/javascript" src="js/jquery.fileupload.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
 
 
@@ -22,7 +25,7 @@
     <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
 </head>
 <body>
-<div ng-app='example' ng-controller="ExampleCtrl" style="width:783px; height: 540px;">
+<div ng-app='example' ng-controller="ExampleCtrl" style="width:783px; height: 540px;" id="controllerHolder">
     <div class='image-builder-container'>
         <div ng-if="fabric.isLoading()" class="image-loading">
             <div class="loading-indicator"></div>
@@ -80,10 +83,6 @@
         </div>-->
 
         <div id="previousImages" style="display: none;">
-            <img src="Koala.jpg" ng-click='addImage()' style="width: 160px; height: 100px;" />
-            <img src="Koala.jpg" ng-click='addImage()' style="width: 160px; height: 100px;" />
-            <img src="Koala.jpg" ng-click='addImage()' style="width: 160px; height: 100px;" />
-            <img src="Koala.jpg" ng-click='addImage()' style="width: 160px; height: 100px;" />
         </div>
 
         <div id='mainApp' class='row' style="background-color: #E6E2D9; max-width: 783px; max-height: 540px;">
@@ -119,7 +118,7 @@
                         <i class="arrow"></i>
                         <h2>Image</h2>
                         <p>
-                            <button ng-click='addImage()' class='btn btn-default' style="margin: 5px 0 0 19px">
+                            <button id="uploadImage" class='btn btn-default' style="margin: 5px 0 0 19px">
                             <i class='fa fa-image'></i>
                             <div class='clearfix'></div>
                             Add image
@@ -130,6 +129,11 @@
                                 <div class='clearfix'></div>
                                 Load images
                             </button>
+
+                            <input id="fileupload" type="file" name="files[]" data-url="designOperations.php?action=uploadImg" style="display: none;">
+                            <div id="progress" style="display: none;">
+                                <div class="bar" style="width: 0%;"></div>
+                            </div>
                         </p>
                     </li>
                 </ul>
@@ -174,7 +178,7 @@
 
                             <script type="text/javascript">
                                 $("#textColorPicker").spectrum({
-                                    color: "#fff",
+                                    color: "#000",
                                     preferredFormat: "hex",
                                     showInput: true,
                                     change: function(color) {

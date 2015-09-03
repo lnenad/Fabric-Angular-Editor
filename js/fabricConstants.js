@@ -185,7 +185,7 @@ angular.module('common.fabric.constants', [])
 			scaleY: 1,
 			fontFamily: 'Arial',
 			fontSize: 40,
-			fill: '#454545',
+			fill: '#000000',
 			textAlign: 'left'
 		}, objectDefaults)
 
