@@ -10,6 +10,9 @@ angular.module('example', [
         $scope.FabricConstants = FabricConstants;
         $scope.lastImage = '';
         $scope.canvasBorder = 0;
+        $scope.displayError = false;
+        $scope.displayErrorText = ''
+        $scope.resultClass = '';
 
         //
         // Creating Canvas Objects
@@ -55,10 +58,12 @@ angular.module('example', [
 
             $http.post('designOperations.php?action=saveDesign', {"json_info":jsonDesign, "canvasBlob":b64Blob}).
                 then(function(response) {
-                    $('#resultPopup p').html('Succesfully saved your design');
+                    $scope.displayErrorText = 'Your design has been saved.';
+                    $scope.resultClass = 'bg-success';
                     $('#resultPopup').bPopup();
                 }, function(response) {
-                    $('#resultPopup p').html('Failed operation.');
+                    $scope.displayErrorText = 'Failed operation. Your design has not been saved.';
+                    $scope.resultClass = 'bg-danger';
                     $('#resultPopup').bPopup();
                     console.log(response);
                 });
@@ -86,8 +91,9 @@ angular.module('example', [
                         //$scope.fabric.loadJSON(JSON.parse($scope.lastImage));
                     }
                 }, function(response) {
-                    $('#resultPopup p').html('Failed operation.');
+                    $scope.displayErrorText = 'Failed operation.';
                     $('#resultPopup').bPopup();
+                    $scope.resultClass = 'bg-danger';
                     console.log(response[0]);
                 });
         }
@@ -192,11 +198,14 @@ $(document).ready(function(){
             done: function (e, data) {
                 //console.log(data);
                 if (data.result.result == 'success') {
-                    $('#resultPopup p').html('File uploaded succesfully.');
+                    angular.element(document.getElementById('controllerHolder')).scope().displayErrorText = 'Image uploaded succesfully.';
+                    angular.element(document.getElementById('controllerHolder')).scope().resultClass = 'bg-success';
                     $('#resultPopup').bPopup();
+                    $('#progress').hide();
                     angular.element(document.getElementById('controllerHolder')).scope().addImage(data.result.file);
                 } else {
-                    $('#resultPopup p').html(data.result.error);
+                    angular.element(document.getElementById('controllerHolder')).scope().displayErrorText = data.result.error;
+                    angular.element(document.getElementById('controllerHolder')).scope().resultClass = 'bg-danger';
                     $('#resultPopup').bPopup();
                 }
             }

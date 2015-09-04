@@ -26,7 +26,6 @@ angular.module('common.fabric.directive', [
 			$scope.$watch('fabric.canvasBackgroundColor', function(newVal) {
 				if ($scope.fabric.setCanvasBackgroundColor) {
 					$scope.fabric.setCanvasBackgroundColor(newVal);
-					$scope.fabric.setDirty(true);
 				}
 			});
 
@@ -90,7 +89,6 @@ angular.module('common.fabric.directive', [
 				if (typeof newVal === 'string') {
 					$scope.fabric.setTint(newVal);
 					$scope.fabric.render();
-					$scope.fabric.setDirty(true);
 				}
 			});
 		}

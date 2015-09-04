@@ -84,11 +84,42 @@
 
         <div id="previousImages" style="display: none;"></div>
 
-        <div id="resultPopup" style="display: none;">
-            <p></p>
+        <div id="resultPopup" style="display: none;" class="{{ resultClass }}">
+            <p>{{ displayErrorText }}</p>
         </div>
 
-        <div id='mainApp' class='row' style="background-color: #E6E2D9; max-width: 783px; max-height: 540px;">
+        <div id="templateSelect" class='row' style="background-color: #E6E2D9; width: 783px; height: 540px;">
+            <ul class="mainNav">
+                <li>
+                    <input id="backgroundAc" type="checkbox" checked>
+                    <i class="arrow"></i>
+                    <h2>VinCompass design</h2>
+                    <p>
+                        <a href="">First design</a>
+                        <a href="">Second design</a>
+                        <a href="">Third design</a>
+                        <a href="">Fourth design</a>
+                    </p>
+                </li>
+                <li>
+                    <input id="textAc" type="checkbox" checked>
+                    <i class="arrow"></i>
+                    <h2>Your designs</h2>
+                    <p>
+                        <button ng-click="fabric.addText()" class='btn btn-default' style="margin: 5px 0 0 32px">
+                            <i class='fa fa-font'></i>
+                            <div class='clearfix'></div>
+                            &nbsp; Text &nbsp;
+                        </button>
+                    </p>
+                </li>
+            </ul>
+            <div id="templates">
+
+            </div>
+        </div>
+
+        <div id='mainApp' class='row' style="background-color: #E6E2D9; max-width: 783px; max-height: 540px; display: none;">
 
 
             <div class="col-xs-2">
