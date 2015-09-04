@@ -89,32 +89,23 @@
         </div>
 
         <div id="templateSelect" class='row' style="background-color: #E6E2D9; width: 783px; height: 540px;">
-            <ul class="mainNav">
-                <li>
-                    <input id="backgroundAc" type="checkbox" checked>
+            <div id="selectMessage" class="row">
+                <h1>Please select design template</h1>
+            </div>
+            <ul class="mainNav col-xs-4 pull-left">
+                <li id="vcTemplates">
+                    <input type="checkbox" checked>
                     <i class="arrow"></i>
                     <h2>VinCompass design</h2>
                     <p>
-                        <a href="">First design</a>
-                        <a href="">Second design</a>
-                        <a href="">Third design</a>
-                        <a href="">Fourth design</a>
                     </p>
                 </li>
-                <li>
-                    <input id="textAc" type="checkbox" checked>
-                    <i class="arrow"></i>
+                <li onclick="loadYourDesigns()">
+                    <input type="checkbox" checked>
                     <h2>Your designs</h2>
-                    <p>
-                        <button ng-click="fabric.addText()" class='btn btn-default' style="margin: 5px 0 0 32px">
-                            <i class='fa fa-font'></i>
-                            <div class='clearfix'></div>
-                            &nbsp; Text &nbsp;
-                        </button>
-                    </p>
                 </li>
             </ul>
-            <div id="templates">
+            <div id="templates" class="col-xs-8 pull-left">
 
             </div>
         </div>
@@ -395,6 +386,12 @@
                         <i class='fa fa-refresh'></i>
                         <div class='clearfix'></div>
                         Reset
+                    </button>
+
+                    <button onclick="backToTemplates()" class='btn btn-default'>
+                        <i class='fa fa-bars'></i>
+                        <div class='clearfix'></div>
+                        Templates
                     </button>
 
 

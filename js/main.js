@@ -136,6 +136,8 @@ angular.module('example', [
     }]);
 
 $(document).ready(function(){
+    loadTemplateCategories();
+
     $("#colorPicker").spectrum({
         color: "#fff",
         preferredFormat: "hex",
@@ -222,4 +224,68 @@ function addImageToCanvas(image) {
 function addDesignToCanvas(design) {
     $('#previousImages').bPopup().close();
     angular.element(document.getElementById('controllerHolder')).scope().putDesign(design);
+}
+
+function loadTemplateCategories() {
+    $.ajax({
+        url: 'designOperations.php?action=loadTemplateCategories',
+        type: 'POST',
+        dataType: 'json',
+        data: '',
+    }).success(function (data) {
+        console.log(data);
+        for(var key in data.categories){
+            $('#vcTemplates p').append('<a href="#" onclick="loadTemplates(\''+data.categories[key]+'\')">'+data.categories[key]+'</a><br />');
+            //ng-click="addImage(\''+image+'\')"
+        }
+    })
+}
+
+function loadTemplates(category) {
+    $.ajax({
+        url: 'designOperations.php?action=loadTemplates',
+        type: 'POST',
+        dataType: 'json',
+        data: 'category='+category,
+    }).success(function (data) {
+        //console.log(data);
+        $('#templates').html('');
+        for(var key in data.images){
+            console.log(key);
+            $('#templates').append('<img src="'+data.thumbs[key]+'" onclick="selectTemplate(\''+data.images[key]+'\')" style="width:160px;" />');
+            //ng-click="addImage(\''+image+'\')"
+        }
+    })
+}
+
+function loadYourDesigns() {
+    userId = '5'
+
+    $.ajax({
+        url: 'designOperations.php?action=loadDesign',
+        type: 'POST',
+        dataType: 'json',
+        data: 'userId='+userId,
+    }).success(function (data) {
+        //console.log(data);
+        $('#templates').html('');
+        for(var key in data.images){
+            console.log(key);
+            $('#templates').append('<img src="'+data.thumbs[key]+'" onclick="selectTemplate(\''+data.images[key]+'\')" style="width:160px;" />');
+            //ng-click="addImage(\''+image+'\')"
+        }
+    })
+}
+
+function selectTemplate(template) {
+    $('#templateSelect').slideUp(function() {
+       $('#mainApp').slideDown();
+    });
+    angular.element(document.getElementById('controllerHolder')).scope().putDesign(template);
+}
+
+function backToTemplates() {
+    $('#mainApp').slideUp(function() {
+        $('#templateSelect').slideDown();
+    });
 }

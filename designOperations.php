@@ -28,9 +28,10 @@ if ($action == 'saveDesign') {
         echo json_encode(['result' => 'fail', 'error' => 'Missing params']);
     }
 } else if ($action == 'loadDesign') {
-    if (!empty($params['userId'])) {
+    if (!empty($params['userId']) || !empty($_POST['userId'])) {
         $operation->connectAndSelect($dbinfo);
-        $operation->loadDesign($params);
+        $userId = isset($params['userId']) ? $params['userId'] : $_POST['userId'];
+        $operation->loadDesign($userId);
     } else {
         echo json_encode(['result' => 'fail', 'error' => 'Missing params']);
     }
@@ -43,11 +44,19 @@ if ($action == 'saveDesign') {
     } else {
         echo json_encode(['result' => 'fail', 'error' => 'Invalid file request']);
     }
-}  else if ($action == 'loadImages') {
+} else if ($action == 'loadImages') {
     if (!empty($_POST['userId'])) {
         $operation->connectAndSelect($dbinfo);
         $operation->loadImages($_POST);
     }
+} else if ($action == 'loadTemplates') {
+    if (!empty($_POST['category'])) {
+        $operation->connectAndSelect($dbinfo);
+        $operation->loadTemplates($_POST);
+    }
+} else if ($action == 'loadTemplateCategories') {
+        $operation->connectAndSelect($dbinfo);
+        $operation->loadTemplateCategories();
 } else {
     echo json_encode(['result' => 'fail', 'error' => 'Invalid request']);
 }

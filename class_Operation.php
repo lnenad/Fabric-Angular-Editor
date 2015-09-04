@@ -23,9 +23,9 @@ class Operation
 
     public function loadTemplates($params)
     {
-        $userId = $params['userId'];
+        $category = $params['category'];
 
-        $result = mysql_query("SELECT * FROM `templates`");
+        $result = mysql_query("SELECT * FROM `templates` WHERE category = '".$category."'");
         $images = [];
         $thumbs = [];
         $name = [];
@@ -42,9 +42,24 @@ class Operation
         }
     }
 
+    public function loadTemplateCategories()
+    {
+        $result = mysql_query("SELECT category FROM `templates`");
+        $categories = [];
+        while($fetchedResult = mysql_fetch_array($result)) {
+            $categories[] = $fetchedResult['category'];
+        }
+
+        if ($result) {
+            echo json_encode(['result' => 'success', 'categories' => $categories]);
+        } else {
+            echo json_encode(['result' => 'fail', 'error' => print_r(mysql_error(), TRUE)]);
+        }
+    }
+
     public function saveDesign($params)
     {
-        $name = "Test"
+        $name = "Test";
         $json = $params['json_info'];
         $blob = $params['canvasBlob'];
         $time = date('Y-m-d H:i:s');
@@ -62,7 +77,7 @@ class Operation
 
     public function loadDesign($params)
     {
-        $userId = $params['userId'];
+        $userId = $params;
 
         $result = mysql_query("SELECT * FROM `designs` WHERE user_id = '" . $userId . "'");
         $images = [];
