@@ -27,7 +27,7 @@ angular.module('common.fabric', [
 			dirty: false,
 			initialized: false,
 			userHasClickedCanvas: false,
-			downloadMultipler: 2,
+			downloadMultipler: 4,
 			imageDefaults: {},
 			textDefaults: {},
 			shapeDefaults: {},
@@ -342,6 +342,7 @@ angular.module('common.fabric', [
 			setActiveStyle('fontWeight',
 				getActiveStyle('fontWeight') === 'bold' ? '' : 'bold');
 			self.render();
+			self.setDirty(true);
 		};
 
 		//
@@ -355,6 +356,7 @@ angular.module('common.fabric', [
 			setActiveStyle('fontStyle',
 				getActiveStyle('fontStyle') === 'italic' ? '' : 'italic');
 			self.render();
+			self.setDirty(true);
 		};
 
 		//
@@ -369,6 +371,7 @@ angular.module('common.fabric', [
 
 			setActiveStyle('textDecoration', value);
 			self.render();
+			self.setDirty(true);
 		};
 
 		//
@@ -383,6 +386,7 @@ angular.module('common.fabric', [
 
 			setActiveStyle('textDecoration', value);
 			self.render();
+			self.setDirty(true);
 		};
 
 		//
@@ -394,6 +398,7 @@ angular.module('common.fabric', [
 
 		self.setTextAlign = function(value) {
 			setActiveProp('textAlign', value);
+			self.setDirty(true);
 		};
 
 		//
@@ -405,6 +410,7 @@ angular.module('common.fabric', [
 
 		self.setOpacity = function(value) {
 			setActiveStyle('opacity', value);
+			self.setDirty(true);
 		};
 
 		//
@@ -422,6 +428,7 @@ angular.module('common.fabric', [
 			var value = self.getFlipX() ? false : true;
 			self.setFlipX(value);
 			self.render();
+			self.setDirty(true);
 		};
 
 		//
@@ -433,6 +440,7 @@ angular.module('common.fabric', [
 				activeObject.center();
 				self.updateActiveObjectOriginals();
 				self.render();
+				self.setDirty(true);
 			}
 		};
 
@@ -442,6 +450,7 @@ angular.module('common.fabric', [
 				activeObject.centerH();
 				self.updateActiveObjectOriginals();
 				self.render();
+				self.setDirty(true);
 			}
 		};
 
@@ -451,6 +460,7 @@ angular.module('common.fabric', [
 				activeObject.centerV();
 				self.updateActiveObjectOriginals();
 				self.render();
+				self.setDirty(true);
 			}
 		};
 
@@ -748,6 +758,14 @@ angular.module('common.fabric', [
 			return blobUrl;
 		};
 
+		self.getRawCanvasBlob = function() {
+			var base64Data = self.getCanvasData();
+			var data = base64Data.replace('data:image/png;base64,', '');
+			var blob = b64toBlob(data, 'image/png');
+
+			return data;
+		};
+
 		self.download = function(name) {
 			// Stops active object outline from showing in image
 			self.deactivateAll();
@@ -851,7 +869,7 @@ angular.module('common.fabric', [
 				self.stopContinuousRendering();
 				$timeout(function() {
 					self.selectActiveObject();
-					self.setDirty(true);
+					//self.setDirty(true);
 				});
 			});
 

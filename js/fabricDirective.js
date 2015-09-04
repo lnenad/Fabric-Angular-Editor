@@ -26,6 +26,7 @@ angular.module('common.fabric.directive', [
 			$scope.$watch('fabric.canvasBackgroundColor', function(newVal) {
 				if ($scope.fabric.setCanvasBackgroundColor) {
 					$scope.fabric.setCanvasBackgroundColor(newVal);
+					$scope.fabric.setDirty(true);
 				}
 			});
 
@@ -33,6 +34,7 @@ angular.module('common.fabric.directive', [
 				if (typeof newVal === 'string') {
 					$scope.fabric.setText(newVal);
 					$scope.fabric.render();
+					$scope.fabric.setDirty(true);
 				}
 			});
 
@@ -40,6 +42,7 @@ angular.module('common.fabric.directive', [
 				if (typeof newVal === 'string' || typeof newVal === 'number') {
 					$scope.fabric.setFontSize(newVal);
 					$scope.fabric.render();
+					$scope.fabric.setDirty(true);
 				}
 			});
 
@@ -47,6 +50,7 @@ angular.module('common.fabric.directive', [
 				if (typeof newVal === 'string' || typeof newVal === 'number') {
 					$scope.fabric.setLineHeight(newVal);
 					$scope.fabric.render();
+					$scope.fabric.setDirty(true);
 				}
 			});
 
@@ -54,6 +58,7 @@ angular.module('common.fabric.directive', [
 				if (typeof newVal === 'string') {
 					$scope.fabric.setTextAlign(newVal);
 					$scope.fabric.render();
+					$scope.fabric.setDirty(true);
 				}
 			});
 
@@ -61,6 +66,7 @@ angular.module('common.fabric.directive', [
 				if (typeof newVal === 'string' && newVal) {
 					$scope.fabric.setFontFamily(newVal);
 					$scope.fabric.render();
+					$scope.fabric.setDirty(true);
 				}
 			});
 
@@ -68,6 +74,7 @@ angular.module('common.fabric.directive', [
 				if (typeof newVal === 'string' || typeof newVal === 'number') {
 					$scope.fabric.setOpacity(newVal);
 					$scope.fabric.render();
+					$scope.fabric.setDirty(true);
 				}
 			});
 
@@ -75,6 +82,7 @@ angular.module('common.fabric.directive', [
 				if (typeof newVal === 'string') {
 					$scope.fabric.setFill(newVal);
 					$scope.fabric.render();
+					$scope.fabric.setDirty(true);
 				}
 			});
 
@@ -82,6 +90,7 @@ angular.module('common.fabric.directive', [
 				if (typeof newVal === 'string') {
 					$scope.fabric.setTint(newVal);
 					$scope.fabric.render();
+					$scope.fabric.setDirty(true);
 				}
 			});
 		}

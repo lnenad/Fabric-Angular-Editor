@@ -9,6 +9,7 @@ angular.module('example', [
         $scope.fabric = {};
         $scope.FabricConstants = FabricConstants;
         $scope.lastImage = '';
+        $scope.canvasBorder = 0;
 
         //
         // Creating Canvas Objects
@@ -42,14 +43,23 @@ angular.module('example', [
             delete $scope.canvasCopy;
         };
 
+        //
+        // Loading and saving
+        // ===============================================================
+
         $scope.savePage = function() {
             jsonDesign = ($scope.fabric.getJSON());
+            b64Blob = $scope.fabric.getRawCanvasBlob();
 
-            $http.post('designOperations.php?action=saveDesign', {"json_info":jsonDesign}).
+            $scope.fabric.setDirty(false)
+
+            $http.post('designOperations.php?action=saveDesign', {"json_info":jsonDesign, "canvasBlob":b64Blob}).
                 then(function(response) {
-                    alert('Succesfully added image');
+                    $('#resultPopup p').html('Succesfully saved your design');
+                    $('#resultPopup').bPopup();
                 }, function(response) {
-                    alert('Failed operation.');
+                    $('#resultPopup p').html('Failed operation.');
+                    $('#resultPopup').bPopup();
                     console.log(response);
                 });
         }
@@ -64,11 +74,11 @@ angular.module('example', [
                     //console.log(response);
                     if (response[0].data.result == 'success') {
                         //$('#previousImages').bPopup();
+                        var i = 0;
                         angular.forEach(response[0].data.images, function(image) {
-                            //lastImage = '{"objects":[{"type":"text","originX":"left","originY":"top","left":69.54,"top":48,"width":133.3984375,"height":52,"fill":"#454545","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"clipTo":null,"backgroundColor":"","originalScaleX":1,"originalScaleY":1,"originalLeft":69.537109375,"originalTop":48,"lineHeight":1.3,"lockMovementX":false,"lockMovementY":false,"lockScalingX":false,"lockScalingY":false,"lockUniScaling":false,"lockRotation":false,"id":5581,"text":"Disable","fontSize":40,"fontWeight":"normal","fontFamily":"arial","fontStyle":"","textDecoration":"","textAlign":"left","path":null,"textBackgroundColor":"","useNative":true},{"type":"text","originX":"left","originY":"top","left":81.54,"top":180,"width":111.171875,"height":52,"fill":"#cccfff","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"clipTo":null,"backgroundColor":"","originalScaleX":1,"originalScaleY":1,"originalLeft":81.53999999999999,"originalTop":180,"lineHeight":1.3,"lockMovementX":false,"lockMovementY":false,"lockScalingX":false,"lockScalingY":false,"lockUniScaling":false,"lockRotation":false,"id":9450,"text":"Image","fontSize":40,"fontWeight":"normal","fontFamily":"arial","fontStyle":"","textDecoration":"","textAlign":"left","path":null,"textBackgroundColor":"","useNative":true},{"type":"text","originX":"left","originY":"top","left":86.54,"top":112,"width":75.60546875,"height":52,"fill":"#454545","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"clipTo":null,"backgroundColor":"","originalScaleX":1,"originalScaleY":1,"originalLeft":86.54,"originalTop":112,"lineHeight":1.3,"lockMovementX":false,"lockMovementY":false,"lockScalingX":false,"lockScalingY":false,"lockUniScaling":false,"lockRotation":false,"id":1858,"text":"Last","fontSize":40,"fontWeight":"normal","fontFamily":"arial","fontStyle":"","textDecoration":"","textAlign":"left","path":null,"textBackgroundColor":"","useNative":true}],"background":"#ffffff","height":300,"width":300,"originalHeight":300,"originalWidth":300}';
-                            $scope.lastImage = image;
-                            $('#previousImages').append('<a href="#" onclick="addDesignToCanvas(\''+image+'\')">Alfa</a>');
+                            $('#previousImages').append('<img src="'+response[0].data.thumbs[i]+'" onclick="addDesignToCanvas(\''+image+'\')" style="width:160px;" />');
                             //console.log(image);
+                            i++;
                         });
                         //console.log($scope.lastImage);
 
@@ -76,13 +86,27 @@ angular.module('example', [
                         //$scope.fabric.loadJSON(JSON.parse($scope.lastImage));
                     }
                 }, function(response) {
-                    alert('Failed operation.');
+                    $('#resultPopup p').html('Failed operation.');
+                    $('#resultPopup').bPopup();
                     console.log(response[0]);
                 });
         }
 
         $scope.putDesign = function (design) {
             $scope.fabric.loadJSON(JSON.parse(design));
+        }
+
+        //
+        // General helpers
+        // ================================================================
+        $scope.toggleBorder = function () {
+            if ($scope.canvasBorder == 1) {
+                $('#mainDrawingContainer').css({'border': 'none'});
+                $scope.canvasBorder = 0;
+            } else {
+                $('#mainDrawingContainer').css({'border': '3px #000 solid'});
+                $scope.canvasBorder = 1;
+            }
         }
 
         //
@@ -140,6 +164,21 @@ $(document).ready(function(){
         $('#fileupload').trigger('click');
     })
 
+    $('#imageAc').on('click', function (evt) {
+        $('#textAc').prop('checked', true)
+        $('#backgroundAc').prop('checked', true)
+    })
+
+    $('#textAc').on('click', function (evt) {
+        $('#imageAc').prop('checked', true)
+        $('#backgroundAc').prop('checked', true)
+    })
+
+    $('#backgroundAc').on('click', function (evt) {
+        $('#textAc').prop('checked', true)
+        $('#imageAc').prop('checked', true)
+    })
+
     $(function () {
         $('#fileupload').fileupload({
             dataType: 'json',
@@ -153,10 +192,12 @@ $(document).ready(function(){
             done: function (e, data) {
                 //console.log(data);
                 if (data.result.result == 'success') {
-                    alert('success');
+                    $('#resultPopup p').html('File uploaded succesfully.');
+                    $('#resultPopup').bPopup();
                     angular.element(document.getElementById('controllerHolder')).scope().addImage(data.result.file);
                 } else {
-                    alert(data.result.error);
+                    $('#resultPopup p').html(data.result.error);
+                    $('#resultPopup').bPopup();
                 }
             }
         });

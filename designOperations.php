@@ -20,8 +20,9 @@ if ($action == 'saveDesign') {
 
     if (!empty($params['json_info'])) {
         $json = $params['json_info'];
+        $blob = $params['canvasBlob'];
         $time = date('Y-m-d H:i:s');
-        $thumb = 'thumb.jpg';
+        $thumb = saveImageBlob($blob);
         $userId = '5';
 
         mysql_connect($host, $user, $pass);
@@ -55,7 +56,7 @@ if ($action == 'saveDesign') {
         }
 
         if ($result) {
-            echo json_encode(['result' => 'success', 'images' => $images]);
+            echo json_encode(['result' => 'success', 'images' => $images, 'thumbs' => $thumbs]);
         } else {
             echo json_encode(['result' => 'fail', 'error' => print_r(mysql_error(), TRUE)]);
         }
@@ -150,4 +151,14 @@ if ($action == 'saveDesign') {
     }
 } else {
     echo json_encode(['result' => 'fail', 'error' => 'Invalid request']);
+}
+
+function saveImageBlob($data)
+{
+    $folder = "tmp/";
+    $randomName = $folder.substr(str_shuffle('abcdefghijklmnopqrstuvwxyz0123456789'),8).'.png';
+    $data = base64_decode($data);
+    file_put_contents($randomName, $data);
+
+    return $randomName;
 }
