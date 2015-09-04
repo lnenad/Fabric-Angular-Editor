@@ -137,6 +137,7 @@ angular.module('example', [
 
 $(document).ready(function(){
     loadTemplateCategories();
+    $('#vcTemplatesAcc').prop('checked', false);
 
     $("#colorPicker").spectrum({
         color: "#fff",
