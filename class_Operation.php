@@ -28,15 +28,15 @@ class Operation
         $result = mysql_query("SELECT * FROM `templates` WHERE category = '".$category."'");
         $images = [];
         $thumbs = [];
-        $name = [];
+        $names = [];
         while($fetchedResult = mysql_fetch_array($result)) {
             $images[] = htmlentities($fetchedResult['json']);
             $thumbs[] = $fetchedResult['thumb'];
-            $name[] = $fetchedResult['name'];
+            $names[] = $fetchedResult['name'];
         }
 
         if ($result) {
-            echo json_encode(['result' => 'success', 'images' => $images, 'thumbs' => $thumbs, 'name' => $name]);
+            echo json_encode(['result' => 'success', 'images' => $images, 'thumbs' => $thumbs, 'names' => $names]);
         } else {
             echo json_encode(['result' => 'fail', 'error' => print_r(mysql_error(), TRUE)]);
         }
@@ -59,7 +59,7 @@ class Operation
 
     public function saveDesign($params)
     {
-        $name = "Test";
+        $name = $params['name'];
         $json = $params['json_info'];
         $blob = $params['canvasBlob'];
         $time = date('Y-m-d H:i:s');
@@ -69,7 +69,7 @@ class Operation
         $result = mysql_query("INSERT INTO `designs` (user_id, name, json, thumb, date_added) VALUES ('" . $userId . "', '" . $name . "', '" . $json . "','" . $thumb . "','" . $time . "')");
 
         if ($result) {
-            echo json_encode(['result' => 'success']);
+            echo json_encode(['result' => 'success', 'thumb' => $thumb]);
         } else {
             echo json_encode(['result' => 'fail', 'error' => print_r(mysql_error(), TRUE)]);
         }
@@ -82,13 +82,15 @@ class Operation
         $result = mysql_query("SELECT * FROM `designs` WHERE user_id = '" . $userId . "'");
         $images = [];
         $thumbs = [];
+        $names = [];
         while($fetchedResult = mysql_fetch_array($result)) {
             $images[] = htmlentities($fetchedResult['json']);
             $thumbs[] = $fetchedResult['thumb'];
+            $names[] = $fetchedResult['name'];
         }
 
         if ($result) {
-            echo json_encode(['result' => 'success', 'images' => $images, 'thumbs' => $thumbs]);
+            echo json_encode(['result' => 'success', 'images' => $images, 'thumbs' => $thumbs, 'names' => $names]);
         } else {
             echo json_encode(['result' => 'fail', 'error' => print_r(mysql_error(), TRUE)]);
         }

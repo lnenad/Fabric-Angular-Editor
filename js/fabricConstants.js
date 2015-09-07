@@ -75,19 +75,15 @@ angular.module('common.fabric.constants', [])
 
 		fonts: [
 			{ name: 'Arial' },
+			{ name: 'Comic Sans MS' },
+			{ name: 'Courgette' },
+			{ name: 'Cinzel' },
+			{ name: 'Great Vibes' },
+			{ name: 'Pacifico' },
+			{ name: 'Rochester' },
 			{ name: 'Times new roman' },
 			{ name: 'Trebuchet MS' },
 			{ name: 'Verdana' },
-			{ name: 'Comic Sans MS' },
-			{ name: 'Graduate' },
-			{ name: 'Hammersmith One' },
-			{ name: 'Oswald' },
-			{ name: 'Oxygen' },
-			{ name: 'Krona One' },
-			{ name: 'Indie Flower' },
-			{ name: 'Courgette' },
-			{ name: 'Gruppo' },
-			{ name: 'Ranchers' }
 		],
 
 		shapeCategories: [

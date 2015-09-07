@@ -126,7 +126,7 @@ angular.module('common.fabric', [
 			canvas.calcOffset();
 			canvas.renderAll();
 			self.renderCount++;
-			console.log('Render cycle:', self.renderCount);
+			//console.log('Render cycle:', self.renderCount);
 		};
 
 		self.setCanvas = function(newCanvas) {
@@ -749,6 +749,16 @@ angular.module('common.fabric', [
 			return data;
 		};
 
+		self.getRawCanvasData = function() {
+			var data = canvas.toDataURL({
+				width: canvas.getWidth(),
+				height: canvas.getHeight(),
+				multiplier: 1
+			});
+
+			return data;
+		};
+
 		self.getCanvasBlob = function() {
 			var base64Data = self.getCanvasData();
 			var data = base64Data.replace('data:image/png;base64,', '');
@@ -759,7 +769,7 @@ angular.module('common.fabric', [
 		};
 
 		self.getRawCanvasBlob = function() {
-			var base64Data = self.getCanvasData();
+			var base64Data = self.getRawCanvasData();
 			var data = base64Data.replace('data:image/png;base64,', '');
 			var blob = b64toBlob(data, 'image/png');
 

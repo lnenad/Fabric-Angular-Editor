@@ -1,5 +1,6 @@
 body {
     padding: 100px;
+    font-family: Georgia, serif !important;
 }
 
 .image-builder-container {
@@ -168,11 +169,18 @@ textarea {
 }
 
 #templateSelect {
-    padding: 20px;
 }
 
 #templates {
     padding: 20px;
+    height: 410px;
+}
+
+#theTemplates {
+    margin: 0;
+    padding: 0;
+    height: 380px;
+    overflow-y: auto;
 }
 
 #templates img {
@@ -181,8 +189,43 @@ textarea {
     cursor: hand;
 }
 
+#selectMessage {
+    padding: 20px 20px 15px 20px;
+    margin: 0;
+    background-color: #d9d4c8;
+}
+
 #selectMessage h1{
     margin: 10px 0 10px 30px;
+}
+
+#designConfirm {
+}
+
+#labelDisclaimer {
+    padding: 21px;
+    font-size: 1.05em;;
+}
+
+#resultingDesign {
+    padding: 60px;
+}
+
+#resultingDesignTxt {
+    margin-top: 12px;
+    font-size: 2em;
+    display: inline-block;
+}
+
+.aTemplate {
+    opacity: 0.6;
+}
+
+.tempHolder {
+    margin-left: 10px;
+    display: inline-block;
+    width: 150px;
+    text-align: center;
 }
 
 
@@ -241,6 +284,8 @@ h2 {
     perspective: 900;
     padding: 0;
     margin: 0;
+    margin-left: 30px;
+    margin-top: 10px;
 }
 .mainNav li {
     position: relative;
@@ -301,6 +346,10 @@ h2 {
 }
 .mainNav li input[type=checkbox]:checked ~ i:after {
     transform: translate(-2px, 0) rotate(-45deg);
+}
+
+#tempNav {
+    width: 180px;
 }
 
 @keyframes flipdown {
