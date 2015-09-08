@@ -79,7 +79,7 @@ angular.module('example', [
         }
 
         $scope.loadPage = function() {
-            userId = '5';
+            userId = $('#userId').val();
 
             one = $http.post('designOperations.php?action=loadDesign', {"userId":userId});
             $q.all([one]).
@@ -90,7 +90,7 @@ angular.module('example', [
                         //$('#previousImages').bPopup();
                         var i = 0;
                         angular.forEach(response[0].data.images, function(image) {
-                            $('#previousImages').append('<img src="'+response[0].data.thumbs[i]+'" onclick="addDesignToCanvas(\''+image+'\')" style="width:160px;" />');
+                            $('#previousImages').append('<img src="'+response[0].data.thumbs[i]+'" class="userDesign" data-template=\''+image+'\' style="width:160px;" />');
                             //console.log(image);
                             i++;
                         });
@@ -145,8 +145,10 @@ angular.module('example', [
     }]);
 
 var selectedTemplate = '';
+var selectedDesign = '';
 
 var loadedUser = 0;
+var loadedCategory = '';
 
 $(document).ready(function(){
     loadTemplateCategories();
@@ -155,9 +157,11 @@ $(document).ready(function(){
     var topLeftPos = $('#mainApp').offset();
 
     $(".floatingPrompt").css({
-        'left': topLeftPos.left+690,
-        'top': topLeftPos.top-130
+        'left': topLeftPos.left+790,
+        'top': topLeftPos.top
     });
+
+    $(".floatingPrompt").draggable({containment: "body"});
 
     $("#colorPicker").spectrum({
         color: "#fff",
@@ -171,18 +175,20 @@ $(document).ready(function(){
     });
 
     $('#loadImagesButton').on('click', function() {
+        var userId = $('#userId').val();
+
         $.ajax({
             url: 'designOperations.php?action=loadImages',
             type: 'POST',
             dataType: 'json',
-            data: 'userId=5',
+            data: 'userId='+userId,
         }).success(function (data) {
             $('#previousImages').html('');
             console.log(data);
             for(var key in data.images){
                 console.log(data.images[key]);
                 var image = data.images[key];
-                $('#previousImages').append('<img src="'+image+'" onclick="addImageToCanvas(\''+image+'\')" style="width: 160px; height: 100px;" />');
+                $('#previousImages').append('<img src="'+image+'" onclick="addImageToCanvas(\''+image+'\')" style="width: 160px;" />');
                 //ng-click="addImage(\''+image+'\')"
             }
         })
@@ -221,6 +227,10 @@ $(document).ready(function(){
         });
     });
 
+    $(document).on('click', '.userDesign', function() {
+        addDesignToCanvas($(this).attr('data-template'));
+    });
+
     $(function () {
         $('#fileupload').fileupload({
             dataType: 'json',
@@ -243,6 +253,7 @@ $(document).ready(function(){
                     angular.element(document.getElementById('controllerHolder')).scope().displayErrorText = data.result.error;
                     angular.element(document.getElementById('controllerHolder')).scope().resultClass = 'bg-danger';
                     $('#resultPopup').bPopup();
+                    $('#progress').hide();
                 }
             }
         });
@@ -276,26 +287,28 @@ function loadTemplateCategories() {
 }
 
 function loadTemplates(category) {
-    $.ajax({
-        url: 'designOperations.php?action=loadTemplates',
-        type: 'POST',
-        dataType: 'json',
-        data: 'category='+category,
-    }).success(function (data) {
-        //console.log(data);
-        $('#theTemplates').html('');
-        for(var key in data.images){
-            $('#theTemplates').append('<div class="tempHolder"><img src="'+data.thumbs[key]+'" class="aTemplate" data-template=\''+data.images[key]+'\' style="width:130px;" />' +
-                '<span>'+data.names[key]+'</span></div>');
-        }
-    })
-
+    if (loadedCategory != category) {
+        $.ajax({
+            url: 'designOperations.php?action=loadTemplates',
+            type: 'POST',
+            dataType: 'json',
+            data: 'category=' + category,
+        }).success(function (data) {
+            loadedCategory = category;
+            //console.log(data);
+            $('#theTemplates').html('');
+            for (var key in data.images) {
+                $('#theTemplates').append('<div class="tempHolder"><img src="' + data.thumbs[key] + '" class="aTemplate" data-template=\'' + data.images[key] + '\' style="width:130px;" />' +
+                    '<span>' + data.names[key] + '</span></div>');
+            }
+        })
+    }
 
 }
 
 function loadYourDesigns() {
     if (loadedUser == 0) {
-        userId = '5';
+        userId = $('#userId').val();
 
         $.ajax({
             url: 'designOperations.php?action=loadDesign',
@@ -328,9 +341,12 @@ function startDesigning() {
 }
 
 function backToTemplates() {
-    $('#mainApp').slideUp(function() {
-        $('#templateSelect').slideDown();
-    });
+    var youSure = confirm('Are you sure, you will lose all unsaved work?');
+    if (youSure) {
+        $('#mainApp').slideUp(function () {
+            $('#templateSelect').slideDown();
+        });
+    }
 }
 
 function backToDesign() {

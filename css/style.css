@@ -1,6 +1,6 @@
 body {
     padding: 100px;
-    font-family: Georgia, serif !important;
+    font-family: Georgia, "Times New Roman", Times, serif !important;
 }
 
 .image-builder-container {
@@ -51,12 +51,10 @@ body {
 }
 
 .loading-indicator {
-    background: white;
-    background-image: url(../img/Preloader_3.gif);
+    background-image: url(../img/glass-animation.gif);
     background-repeat: no-repeat;
     background-position: center;
     border-radius: 10px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
     margin: 300px auto 0;
     height: 160px;
     width: 160px;
@@ -115,6 +113,7 @@ textarea {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+    cursor: move;
 }
 
 .floatingPrompt .btn-group {
@@ -196,7 +195,14 @@ textarea {
 }
 
 #selectMessage h1{
+    letter-spacing: 1px;
     margin: 10px 0 10px 30px;
+    text-transform: none;
+    font-size: 18px !important;
+}
+
+#selectMessage b {
+    color: #8B2822;
 }
 
 #designConfirm {

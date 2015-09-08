@@ -60,7 +60,8 @@ class Operation
     public function saveDesign($params)
     {
         $name = $params['name'];
-        $json = $params['json_info'];
+        $json = json_encode($params['json_info']);
+        $json = substr($json, 1, strlen($json)-2);
         $blob = $params['canvasBlob'];
         $time = date('Y-m-d H:i:s');
         $thumb = $this->saveImageBlob($blob);

@@ -1,6 +1,7 @@
 <html>
 <head>
     <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/fabric.min.js"></script>
     <script type="text/javascript" src="js/angular.js"></script>
@@ -20,6 +21,7 @@
 
 
     <link type="text/css" rel="stylesheet" href="css/style.css" />
+    <link type="text/css" rel="stylesheet" href="css/jquery-ui.min.css" />
     <link type="text/css" rel="stylesheet" href="css/spectrum.css" />
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
@@ -32,56 +34,9 @@
             <div class="loading-indicator"></div>
         </div>
 
-
-
         <br />
 
-        <!--<div class="row">
-
-            <div class='col-xs-4'>
-                <label>Canvas Size</label>
-                <br />
-                <button  ng-hide='canvasCopy' class='btn btn-default btn-block mrm' ng-click='selectCanvas()'>
-                    {{ fabric.canvasOriginalWidth }} x {{ fabric.canvasOriginalHeight }}
-                </button>
-
-                <div class='row' ng-show='canvasCopy'>
-                    <div class='col-xs-12'>
-                        <form ng-submit='setCanvasSize()'>
-                            <div class='form-group'>
-                                <label>Width</label>
-                                <input type='text' ng-model='canvasCopy.width' class='form-control' />
-                            </div>
-
-                            <div class='form-group'>
-                                <label>Height</label>
-                                <input type='text' ng-model='canvasCopy.height' class='form-control' />
-                            </div>
-
-                            <button type='submit' class='btn btn-success'>
-                                Submit
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class='col-xs-4'>
-                <label>&nbsp;</label>
-                <br />
-                <div class="btn-group col-xs-12">
-                    <a class="btn btn-block btn-default dropdown-toggle" data-toggle="dropdown" href="#">
-                        Preset Sizes
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu pull-right">
-                        <li ng-click='fabric.setCanvasSize(size.width, size.height); fabric.setDirty(true)' ng-repeat='size in FabricConstants.presetSizes'>
-                            <a>{{ size.name }}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>-->
+        <input type="hidden" value="5" name="userId" id="userId"/>
 
         <div id="previousImages" style="display: none;"></div>
 
@@ -91,7 +46,7 @@
 
         <div id="templateSelect" class='row' style="background-color: #E6E2D9; width: 783px; height: 540px;">
             <div id="selectMessage" class="row">
-                <h1>Step 1. <b>Please select design template</b></h1>
+                <h1>Step 1. <b>Select Label Template</b></h1>
             </div>
             <div class="row">
                 <ul class="mainNav col-xs-3 pull-left" id="tempNav">
@@ -113,7 +68,7 @@
                     </div>
                     <div class="row">
                         <button id="startDesigning" class="btn btn-default pull-right" style="margin:10px 50px 0 0;display:none;" onclick="startDesigning()">
-                            Proceed
+                            Select
                             <i class="fa fa-angle-double-right"></i>
                         </button>
                     </div>
@@ -124,7 +79,7 @@
         <div id='mainApp' class='row' style="background-color: #E6E2D9; max-width: 783px; max-height: 540px; height: 540px; display: none;">
 
             <div id="selectMessage" class="row">
-                <h1>Step 2. <b>Select label template</b></h1>
+                <h1>Step 2. <b>Customize Label Template</b></h1>
             </div>
 
             <div class="col-xs-2" style="padding: 0; margin: 0;">
@@ -182,13 +137,11 @@
 
                     <button ng-disabled="!fabric.selectedObject" ng-click="fabric.deleteActiveObject(); fabric.setDirty(true)" class='btn btn-danger btn-sm' style="margin: 1% 0 0 50px">
                         <i class='fa fa-trash-o'></i>
-                        <div class='clearfix'></div>
                         Delete
                     </button>
 
                     <button ng-click="toggleBorder()" ng-class="{ active: canvasBorder == 1 }" class='btn btn-info btn-sm' style="margin: 8% 0 0 47px">
                         <i class='fa fa-square-o'></i>
-                        <div class='clearfix'></div>
                         Canvas <br />Border
                     </button>
 
@@ -205,7 +158,7 @@
 
             </div>
 
-            <div class='col-xs-3 floatingPrompt' style="position: absolute; z-index: 200; text-align: center" ng-if='fabric.selectedObject'>
+            <div class='col-xs-3 floatingPrompt' style="position: absolute; z-index: 200; text-align: center" ng-show='fabric.selectedObject'>
                 <div>
                     <div ng-switch='fabric.selectedObject.type' style="">
                         <div ng-switch-when='text'>
@@ -379,7 +332,7 @@
                 //$(".sp-container").remove();
             </script>
 
-            <div class='col-xs-9' style="background-color: #CACACA;margin-left: 64px; height: 468px;">
+            <div class='col-xs-9' style="background-color: #CACACA;margin-left: 64px; height: 466px;" title="Click to deselect all">
                 <div class='image-builder' parent-click="fabric.deactivateAll()">
                     <div class='fabric-container' id="mainDrawingContainer">
                         <canvas fabric='fabric'></canvas>

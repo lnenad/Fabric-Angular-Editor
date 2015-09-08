@@ -194,9 +194,18 @@ angular.module('common.fabric', [
 		};
 
 		self.clearCanvas = function() {
-			canvas.clear();
-			canvas.setBackgroundColor('#ffffff');
-			self.render();
+			if (self.isDirty()) {
+				var youSure = confirm('Resetting the canvas will delete all unsaved work, are you sure that you want to proceed?');
+				if (youSure) {
+					canvas.clear();
+					canvas.setBackgroundColor('#ffffff');
+					self.render();
+				}
+			} else {
+				canvas.clear();
+				canvas.setBackgroundColor('#ffffff');
+				self.render();
+			}
 		};
 
 		//
