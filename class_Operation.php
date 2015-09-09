@@ -47,7 +47,8 @@ class Operation
         $result = mysql_query("SELECT category FROM `templates`");
         $categories = [];
         while($fetchedResult = mysql_fetch_array($result)) {
-            $categories[] = $fetchedResult['category'];
+            if (!in_array($fetchedResult['category'], $categories))
+                $categories[] = $fetchedResult['category'];
         }
 
         if ($result) {

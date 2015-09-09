@@ -1,3 +1,29 @@
+@font-face {
+    font-family: "Gabrielle";
+    src: url("../fonts/Gabrielle.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Amptmann Script";
+    src: url("../fonts/Amptmann-Script.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Parma Petit";
+    src: url("../fonts/ParmaPetit-Normal.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Cheboygan";
+    src: url("../fonts/Cheboygan.ttf") format("truetype");
+}
+
+
+@font-face {
+    font-family: "Chopin Script";
+    src: url("../fonts/ChopinScript.otf") format("opentype");
+}
+
 body {
     padding: 100px;
     font-family: Georgia, "Times New Roman", Times, serif !important;
